@@ -1,0 +1,40 @@
+.designers {
+  .items {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .item {
+    flex: 1;
+
+    border-radius: 16px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    min-width: 300px;
+    h3 {
+      font-size: 36px;
+    }
+    h6 {
+      font-size: 20px;
+    }
+    &:nth-child(1) {
+      background-color: rgb(209, 233, 252);
+    }
+    &:nth-child(2) {
+      background-color: rgb(255, 247, 205);
+    }
+    &:nth-child(3) {
+      background-color: rgb(255, 231, 217);
+    }
+  }
+
+  .icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+  }
+}

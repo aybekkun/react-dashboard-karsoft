@@ -1,6 +1,10 @@
+import Search from "../search/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import "./userstable.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLeads } from "../../redux/slices/leadsSlice";
+import { CircularProgress } from "@mui/material";
 
 const columns = [
   {
@@ -45,10 +49,18 @@ const columns = [
   {
     field: "created_at",
     headerName: "Создан",
-    type: "dateTime",
+    type: "date",
     flex: 2,
     sortable: false,
-  
+    renderCell: (params) => {
+      return (
+        <div>
+          {new Date(params.row.created_at).toLocaleString("ru-RU", {
+            timeZone: "UTC",
+          })}
+        </div>
+      );
+    },
   },
 ];
 
@@ -156,15 +168,32 @@ const rows = [
 ];
 
 const UsersTable = () => {
+  const dispatch = useDispatch();
+
+  const { items, status } = useSelector((state) => state.leads);
+
+  React.useEffect(() => {
+    dispatch(fetchLeads());
+  }, []);
+
+  if (status === "loading") {
+    return (
+      <div className="usertable">
+        <CircularProgress color="primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="userstable">
+      <Search />
+
       <DataGrid
-        rows={rows}
+        rows={items}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         autoHeight={true}
-        keepNonExistentRowsSelected={false}
-        disableColumnSelector
+        disableColumnMenu
       />
     </div>
   );

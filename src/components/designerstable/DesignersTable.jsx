@@ -2,6 +2,7 @@ import React from "react";
 import "./designerstable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Rating } from "@mui/material";
+import { Search } from "@mui/icons-material";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -38,6 +39,7 @@ const rows = [
 const DesignersTable = () => {
   return (
     <div className="designerstable">
+    
       <DataGrid
         rows={rows}
         columns={columns}
@@ -45,7 +47,6 @@ const DesignersTable = () => {
         autoHeight={true}
         keepNonExistentRowsSelected={false}
         disableColumnSelector
-      
       />
     </div>
   );

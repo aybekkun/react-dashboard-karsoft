@@ -3,6 +3,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import { Link } from "react-router-dom";
 import "./sidebar.scss";
 const Sidebar = () => {
@@ -36,6 +37,12 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">Связь</p>
+          <Link to="/orders" style={{ textDecoration: "none" }}>
+            <li>
+              <BookmarkBorderOutlinedIcon className="icon" />
+              <span>Заказы</span>
+            </li>
+          </Link>
           <Link to="/comments" style={{ textDecoration: "none" }}>
             <li>
               <ChatBubbleOutlineOutlinedIcon className="icon" />

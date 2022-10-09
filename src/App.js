@@ -4,6 +4,7 @@ import Comments from "./pages/comments/Comments";
 import Designers from "./pages/designers/Designers";
 import Home from "./pages/home/Home";
 import NotFound from "./pages/notfound/NotFound";
+import Orders from "./pages/orders/Orders";
 import Users from "./pages/users/Users";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="users" element={<Users/>}/>
           <Route path="designers" element={<Designers/>}/>
           <Route path="comments" element={<Comments/>}/>
+          <Route path="orders" element={<Orders/>}/>
         </Route>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

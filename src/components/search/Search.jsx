@@ -1,22 +1,24 @@
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
-import dayjs from "dayjs";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
 import React from "react";
-import "./search.scss";
+import { useDispatch, useSelector } from "react-redux";
 import { useField } from "../../hooks/use-fieled";
-import { useDispatch } from "react-redux";
-
+import { setCurrentPage, setSearchParams } from "../../redux/slices/leadsSlice";
+import "./search.scss";
 const Search = () => {
   const dispatch = useDispatch();
-
-  const [value, setValue] = React.useState(dayjs(""));
+  const [fromDate, setFromDate] = React.useState(dayjs(""));
+  const [beforeDate, setBeforeDate] = React.useState(dayjs(""));
 
   const { reset: resetUsername, ...username } = useField("text");
   const { reset: resetSurname, ...surname } = useField("text");
@@ -24,24 +26,45 @@ const Search = () => {
   const { reset: resetCompany, ...company } = useField("text");
   const { reset: resetUserStatus, ...userStatus } = useField("text");
 
-  // const handleChange = (event) => {
-  //   setUserStatus(event.target.value);
-  // };
+  const handleChangeFromDate = (newValue) => {
+    setFromDate(newValue);
+  };
+
+  const handleChangeBeforeDate = (newValue) => {
+    setBeforeDate(newValue);
+  };
 
   const onClickReset = () => {
+    dispatch(setCurrentPage(1))
     resetUsername();
     resetSurname();
     resetPhone();
     resetCompany();
     resetUserStatus();
+    setFromDate(null);
+    setBeforeDate(null);
+    dispatch(setSearchParams({}));
   };
 
   const onClickSearch = () => {
-
-  };
-
-  const handleChangeDate = (value) => {
-    setValue(value);
+    dispatch(setCurrentPage(1))
+    let newFromDate = fromDate;
+    let newBeforeDate = beforeDate;
+    let formattedFromDate = newFromDate.format("YYYY-MM-DD");
+    let formattedBeforeDate = newBeforeDate.format("YYYY-MM-DD");
+    console.log(formattedFromDate);
+    dispatch(
+      setSearchParams({
+        username: username.value,
+        surname: surname.value,
+        phone: phone.value,
+        company: company.value,
+        userStatus: userStatus.value,
+        from: formattedFromDate === "Invalid Date"?"":formattedFromDate,
+        before:
+          formattedBeforeDate === "Invalid Date" ? "" : formattedBeforeDate,
+      })
+    );
   };
 
   return (
@@ -97,12 +120,17 @@ const Search = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="От"
-              inputFormat="YYYY-MM-DD"
-              value={value}
-              onChange={handleChangeDate}
+              inputFormat="DD.MM.YYYY"
+              value={fromDate}
+              onChange={handleChangeFromDate}
               renderInput={(params) => (
                 <TextField
-                  sx={{ marginRight: "5px", marginBottom: "10px" }}
+                  sx={{
+                    minWidth: "100px",
+                    marginRight: "5px",
+                    marginBottom: "10px",
+                  }}
+                  size="small"
                   variant="standard"
                   {...params}
                 />
@@ -110,12 +138,17 @@ const Search = () => {
             />
             <DesktopDatePicker
               label="До"
-              inputFormat="YYYY-MM-DD"
-              value={value}
-              onChange={handleChangeDate}
+              inputFormat="DD.MM.YYYY"
+              value={beforeDate}
+              onChange={handleChangeBeforeDate}
               renderInput={(params) => (
                 <TextField
-                  sx={{ marginRight: "5px", marginBottom: "10px" }}
+                  sx={{
+                    minWidth: "100px",
+                    marginRight: "5px",
+                    marginBottom: "10px",
+                  }}
+                  size="small"
                   variant="standard"
                   {...params}
                 />
@@ -124,13 +157,14 @@ const Search = () => {
           </LocalizationProvider>
 
           <Box>
-            <Button 
-             onClick={onClickSearch}
+            <Button
+              onClick={onClickSearch}
               sx={{ marginRight: "10px" }}
               size="small"
               variant="outlined"
               color="primary"
             >
+              <SearchOutlinedIcon />
               Поиск
             </Button>
             <Button
@@ -139,7 +173,8 @@ const Search = () => {
               variant="outlined"
               color="error"
             >
-              Очистить параметры
+              <DeleteOutlineOutlinedIcon />
+              Очистить
             </Button>
           </Box>
         </div>

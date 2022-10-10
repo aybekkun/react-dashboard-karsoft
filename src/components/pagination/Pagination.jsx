@@ -12,6 +12,7 @@ const Pagination = ({onPageChange, forcePage, pageCount}) => {
     forcePage={forcePage - 1 }
     pageCount={pageCount}
     previousLabel="<"
+    renderOnZeroPageCount={null}
   />
   )
 }

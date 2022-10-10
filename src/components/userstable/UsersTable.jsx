@@ -16,13 +16,13 @@ import Spinner from "../spinner/Spinner";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
-  const { items, status, totalPage, currentPage } = useSelector(
+  const { items, status, totalPage, currentPage, searchParams } = useSelector(
     (state) => state.leads
   );
 
   React.useEffect(() => {
-    dispatch(fetchLeads({ page: currentPage }));
-  }, [currentPage]);
+    dispatch(fetchLeads({ ...searchParams, page: currentPage }));
+  }, [currentPage, searchParams]);
 
   const handlePageClick = (event) => {
     dispatch(setCurrentPage(event.selected + 1));

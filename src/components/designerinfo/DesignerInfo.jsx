@@ -1,14 +1,18 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Paper } from "@mui/material";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 const DesignerInfo = () => {
-    const {id} = useParams()
+  const { id } = useParams();
+  
   return (
-    <div className='designerinfo'>
+    <Paper>
+      <div className="designerinfo">
         <h2>{id}</h2>
         <p>Smacher</p>
-    </div>
-  )
-}
+      </div>
+    </Paper>
+  );
+};
 
-export default DesignerInfo
+export default DesignerInfo;

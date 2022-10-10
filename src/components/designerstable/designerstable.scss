@@ -1,11 +1,27 @@
-.designerstable{
-    padding: 20px;
+.designerstable {
+  padding: 20px;
 
-    .rating{
-        display: flex;
-        align-items:  center;
-        p{
-            margin-left: 10px;
-        }
+  .rating {
+    display: flex;
+    align-items: center;
+    p {
+      margin-left: 10px;
     }
+  }
+  display: flex;
+  gap: 20px;
+  &-box {
+    flex: 1;
+  }
+
+  &-view{
+    display: block;
+    margin: 0 auto;
+    text-decoration: none;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: darkblue;
+    border: 1px dotted rgba(0, 0, 139, 0.596);
+    cursor: pointer;
+  }
 }

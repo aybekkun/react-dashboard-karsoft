@@ -1,199 +1,83 @@
-import Search from "../search/Search";
-import { DataGrid } from "@mui/x-data-grid";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import React from "react";
-import "./userstable.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLeads } from "../../redux/slices/leadsSlice";
-import { CircularProgress } from "@mui/material";
+import { fetchLeads, setCurrentPage } from "../../redux/slices/leadsSlice";
+import Search from "../search/Search";
+import "./userstable.scss";
 
-const columns = [
-  {
-    field: "id",
-    headerName: "ID",
-    flex: 1,
-    sortable: false,
-    filterable: false,
-    disableColumnMenu: true,
-  },
-  {
-    field: "tg_id",
-    headerName: "Телеграм ID",
-    flex: 1,
-    sortable: false,
-    filterable: false,
-    disableColumnMenu: true,
-  },
-  { field: "name", headerName: "Имя", flex: 1, sortable: false },
-  { field: "surname", headerName: "Фамилия", flex: 1, sortable: false },
-  {
-    field: "phone",
-    headerName: "Телефон номер",
-    width: 180,
-    sortable: false,
-    filterable: true,
-  },
-  { field: "company", headerName: "Компания", flex: 1, sortable: false },
-  {
-    field: "status",
-    headerName: "Статус",
-    width: 130,
-    sortable: false,
-    type: "singleSelect",
-    valueOptions: ["start", "signed", "joined"],
-    renderCell: (params) => {
-      return (
-        <div className={`status ${params.row.status}`}>{params.row.status}</div>
-      );
-    },
-  },
-  {
-    field: "created_at",
-    headerName: "Создан",
-    type: "date",
-    flex: 2,
-    sortable: false,
-    renderCell: (params) => {
-      return (
-        <div>
-          {new Date(params.row.created_at).toLocaleString("ru-RU", {
-            timeZone: "UTC",
-          })}
-        </div>
-      );
-    },
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Intuza LTC",
-    name: "Snow",
-    surname: "Jon",
-    status: "start",
-    created_at: "20.12.2021",
-  },
-  {
-    id: 2,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Intuza LTC",
-    name: "Lannister",
-    surname: "Cersei",
-    status: "signed",
-    created_at: "20.10.2022",
-  },
-  {
-    id: 3,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Intuza LTC",
-    name: "Lannister",
-    surname: "Jaime",
-    status: "joined",
-    created_at: "20.12.2020",
-  },
-  {
-    id: 4,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Intuza LTC",
-    name: "Stark",
-    surname: "Arya",
-    status: "signed",
-    created_at: "01.12.2010",
-  },
-  {
-    id: 5,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Targaryen LTC",
-    name: "Targaryen",
-    surname: "Daenerys",
-    status: "start",
-    created_at: "01.12.2012",
-  },
-  {
-    id: 6,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Melisandre LTC",
-    name: "Melisandre",
-    surname: null,
-    status: "start",
-    created_at: "01.02.2014",
-  },
-  {
-    id: 7,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Clifford LTC",
-    name: "Clifford",
-    surname: "Ferrara",
-    status: "signed",
-    created_at: "10.02.2020",
-  },
-  {
-    id: 8,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "IntuFrancesza LTC",
-    name: "Frances",
-    surname: "Rossini",
-    status: "joined",
-    created_at: "10.02.2020",
-  },
-  {
-    id: 9,
-    tg_id: 12341,
-    phone: "+998913108080",
-    company: "Arisla LTC",
-    name: "Roxie",
-    surname: "Harvey",
-    status: "joined",
-    created_at: "10.02.2020",
-  },
-  {
-    id: 10,
-    tg_id: 12341,
-    phone: "+998913808080",
-    company: "Lonadn LTC",
-    name: "John",
-    surname: "Doe",
-    status: "joined",
-    created_at: "10.02.2020",
-  },
-];
+import Pagination from "../pagination/Pagination";
+import Spinner from "../spinner/Spinner";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
-
-  const { items, status } = useSelector((state) => state.leads);
+  const { items, status, totalPage, currentPage } = useSelector(
+    (state) => state.leads
+  );
 
   React.useEffect(() => {
-    dispatch(fetchLeads());
-  }, []);
+    dispatch(fetchLeads({ page: currentPage }));
+  }, [currentPage]);
+
+  const handlePageClick = (event) => {
+    dispatch(setCurrentPage(event.selected + 1));
+  };
 
   if (status === "loading") {
-    return (
-      <div className="usertable">
-        <CircularProgress color="primary" />
-      </div>
-    );
+    return <Spinner />;
   }
 
   return (
     <div className="userstable">
       <Search />
-
-      <DataGrid
-        rows={items}
-        columns={columns}
-        pageSize={10}
-        autoHeight={true}
-        disableColumnMenu
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ width: 100 }}>Телеграм ID</TableCell>
+              <TableCell align="left">Имя</TableCell>
+              <TableCell align="left">Фамилия</TableCell>
+              <TableCell align="left">Телефон</TableCell>
+              <TableCell align="left">Компания</TableCell>
+              <TableCell align="center">Статус</TableCell>
+              <TableCell align="center">Создан</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow
+                key={item.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {item.tg_id}
+                </TableCell>
+                <TableCell align="left">{item.name}</TableCell>
+                <TableCell align="left">{item.surname}</TableCell>
+                <TableCell align="left">{item.phone}</TableCell>
+                <TableCell align="left">{item.company}</TableCell>
+                <TableCell align="center">
+                  <div className={`status ${item.status}`}>{item.status}</div>
+                </TableCell>
+                <TableCell align="center">
+                  {new Date(item.created_at).toLocaleString("ru-RU", {
+                    timeZone: "UTC",
+                  })}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Pagination
+        onPageChange={handlePageClick}
+        forcePage={currentPage}
+        pageCount={totalPage}
       />
     </div>
   );

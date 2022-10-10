@@ -2,11 +2,21 @@ import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import { Link } from "react-router-dom";
 import "./sidebar.scss";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slices/authSlice";
 const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    if (window.confirm("Вы точно хотите выйти?")) {
+      dispatch(logout());
+      window.localStorage.removeItem("token");
+    }
+  };
   return (
     <div className="sidebar">
       <div className="top">
@@ -50,10 +60,12 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">Профиль</p>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Выйти</span>
-          </li>
+          <Link onClick={onLogout} to="/" style={{ textDecoration: "none" }}>
+            <li>
+              <ExitToAppIcon className="icon" />
+              <span>Выйти</span>
+            </li>
+          </Link>
         </ul>
       </div>
       <div className="bottom">

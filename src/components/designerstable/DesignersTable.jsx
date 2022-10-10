@@ -2,23 +2,42 @@ import React from "react";
 import "./designerstable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Rating } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Link , Outlet} from "react-router-dom";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "Имя", width: 130 },
-  { field: "lastName", headerName: "Фамилия", width: 130 },
+  { field: "id", headerName: "ID", width: 50, sortable:false },
+  { field: "firstName", headerName: "Имя", width: 120, sortable:false },
+  { field: "lastName", headerName: "Фамилия", width: 120, sortable:false },
   {
     field: "rating",
     headerName: "Рейтинг",
-    width:200,
-    filterable: false ,
+    width: 200,
+    filterable: false,
     renderCell: (params) => {
-      return  (
+      return (
         <div className="rating">
-            <Rating name="read-only" value={params.row.rating} precision={0.1} readOnly />
-            <p>{params.row.rating}</p>
+          <Rating
+            name="read-only"
+            value={params.row.rating}
+            precision={0.1}
+            readOnly
+          />
+          <p>{params.row.rating}</p>
         </div>
+      );
+    },
+  },
+  {
+    field: "view",
+    headerName: "Все оценки",
+    flex:1,
+    filterable: false,
+    sortable: false,
+    renderCell: (params) => {
+      return (
+        <Link to={`/designers/${params.row.id}`} className="designerstable-view">
+          Посмотреть
+        </Link>
       );
     },
   },
@@ -39,15 +58,18 @@ const rows = [
 const DesignersTable = () => {
   return (
     <div className="designerstable">
-    
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        autoHeight={true}
-        keepNonExistentRowsSelected={false}
-        disableColumnSelector
-      />
+      <div className="designerstable-box">
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          autoHeight={true}
+          disableColumnMenu
+        />
+      </div>
+      <div className="designerstable-box">
+        <Outlet/>
+      </div>
     </div>
   );
 };

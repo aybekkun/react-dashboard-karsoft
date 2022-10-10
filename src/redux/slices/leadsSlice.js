@@ -3,31 +3,31 @@ import axios from "../../axios";
 
 export const fetchLeads = createAsyncThunk(
   "leads/fetchLeads",
-  async (_, thunkAPI) => {
-
-    const { data } = await axios.get(
-      `/leads`
-    );
+  async (params, thunkAPI) => {
+    const { page } = params;
+    const { data } = await axios.get(`/leads?limit=3&page=${page}`);
     if (data.data.length === 0) {
-      return thunkAPI.rejectWithValue("Пиццы пустые");
+      return thunkAPI.rejectWithValue("Нет данных");
     }
-    console.log("hi")
+
     return thunkAPI.fulfillWithValue(data);
-    
   }
 );
 
 const initialState = {
   items: [],
-  status: "loading", // loading | success| error
+  status: "loading",
+  totalPage: 0,
+  currentPage: 1,
+  // loading | success| error
 };
 
 export const leadsSlice = createSlice({
   name: "leads",
   initialState,
   reducers: {
-    setItems(state, action) {
-      state.items = action.payload;
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: {
@@ -38,6 +38,7 @@ export const leadsSlice = createSlice({
     [fetchLeads.fulfilled]: (state, action) => {
       state.status = "success";
       state.items = action.payload.data;
+      state.totalPage = Math.ceil(Number(action.payload.meta.total) / 3);
     },
     [fetchLeads.rejected]: (state, action) => {
       console.log(action, "rejected");
@@ -47,8 +48,7 @@ export const leadsSlice = createSlice({
   },
 });
 
-export const selectleadsData = (state) => state.leads;
 // Action creators are generated for each case reducer function
-export const { setItems } = leadsSlice.actions;
+export const { setCurrentPage } = leadsSlice.actions;
 
 export default leadsSlice.reducer;

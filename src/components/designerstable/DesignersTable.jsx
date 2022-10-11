@@ -27,8 +27,8 @@ const DesignersTable = () => {
   return (
     <div className="designerstable">
       <div className="designerstable-box">
-        <TableContainer component={Paper}>
-          <Table fullWidth aria-label="simple table">
+        <TableContainer sx={{ maxWidth: "100%", minHeight:"300px" }} component={Paper}>
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
@@ -40,7 +40,7 @@ const DesignersTable = () => {
             <TableBody>
               {items.map((item, i) => (
                 <TableRow
-                  key={item.name}
+                  key={item.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">

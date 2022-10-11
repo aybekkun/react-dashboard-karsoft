@@ -72,6 +72,6 @@ export const designersSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = designersSlice.actions;
+// export const {} = designersSlice.actions;
 
 export default designersSlice.reducer;

@@ -22,7 +22,7 @@ const Designers = () => {
         </div>
         <div className="item">
           <StarBorderOutlinedIcon sx={{ color: "#F7E92D" }} className="icon" />
-          <h3>{middleOverall}</h3>
+          <h3>{middleOverall.toFixed(2)}</h3>
           <h6>Cредняя оценка</h6>
         </div>
         <div className="item">

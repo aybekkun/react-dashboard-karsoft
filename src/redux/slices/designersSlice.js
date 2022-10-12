@@ -22,14 +22,13 @@ export const fetchDesigner = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   items: [],
   overalls: [],
-  info:{},
+  info: {},
   disignersCount: 0,
   middleOverall: 0,
-  bestDesigner:"",
+  bestDesigner: "",
   status: "loading",
 };
 
@@ -51,23 +50,27 @@ export const designersSlice = createSlice({
         state.overalls.reduce(
           (sum, currentValue) => sum + currentValue.overall,
           0
-        ) / state.overalls.length.toFixed(2);
-        state.bestDesigner = state.items.find(obj=>obj.id === state.overalls.find(item=>item.overall === Math.max(...state.overalls.map(overall => overall.overall))).id).name;
+        ) / state.overalls.length;
+      state.bestDesigner = state.items.find(
+        (obj) =>
+          obj.id ===
+          state.overalls.find(
+            (item) =>
+              item.overall ===
+              Math.max(...state.overalls.map((overall) => overall.overall))
+          ).id
+      ).name;
     },
     [fetchDesigners.rejected]: (state, action) => {
       console.log(action, "rejected");
       state.status = "error";
       state.items = [];
     },
-    [fetchDesigner.pending]: (state) => {
-   
-    },
+    [fetchDesigner.pending]: (state) => {},
     [fetchDesigner.fulfilled]: (state, action) => {
       state.info = action.payload.data[0];
     },
-    [fetchDesigner.rejected]: (state, action) => {
-    
-    },
+    [fetchDesigner.rejected]: (state, action) => {},
   },
 });
 

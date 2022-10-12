@@ -20,8 +20,8 @@ const initialState = {
 
 };
 
-export const menusSlice = createSlice({
-  name: "menus",
+export const ordersSlice = createSlice({
+  name: "orders",
   initialState,
   reducers: {
 
@@ -45,4 +45,4 @@ export const menusSlice = createSlice({
 
 
 
-export default menusSlice.reducer;
+export default ordersSlice.reducer;

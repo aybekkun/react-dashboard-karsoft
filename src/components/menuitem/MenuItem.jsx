@@ -1,11 +1,10 @@
-import React from "react";
-import "./menuitem.scss";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React from "react";
 import SubMenu from "../submenu/SubMenu";
+import "./menuitem.scss";
 const MenuItem = ({ name, description, sub_menu, count }) => {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -29,11 +28,9 @@ const MenuItem = ({ name, description, sub_menu, count }) => {
           </h3>
         </AccordionSummary>
         <AccordionDetails>
-          <ul>
-            {sub_menu.map((menu) => (
-              <SubMenu {...menu} />
-            ))}
-          </ul>
+          {sub_menu.map((menu) => (
+            <SubMenu {...menu} />
+          ))}
         </AccordionDetails>
       </Accordion>
     </div>

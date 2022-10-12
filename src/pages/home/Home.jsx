@@ -11,7 +11,7 @@ const Home = () => {
   React.useEffect(() => {
     dispatch(fetchMenus());
   }, []);
-  console.log(menuItems);
+
   return (
     <div className="home">
       {menuItems.map((item) => ( <MenuItem key={item.id} {...item} />))}

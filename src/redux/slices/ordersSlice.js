@@ -17,7 +17,6 @@ export const fetchMenus = createAsyncThunk(
 
 const initialState = {
   menuItems: [],
-
 };
 
 export const ordersSlice = createSlice({

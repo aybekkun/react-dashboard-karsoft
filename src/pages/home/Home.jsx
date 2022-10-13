@@ -13,7 +13,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home">
+    <div className="home">  
       {menuItems.map((item) => ( <MenuItem key={item.id} {...item} />))}
     </div>
   );

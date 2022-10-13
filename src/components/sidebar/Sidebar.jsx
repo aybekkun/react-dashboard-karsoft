@@ -69,7 +69,7 @@ const Sidebar = () => {
         </ul>
       </div>
       <div className="bottom">
-        <span>Made By Intuza IT Academy</span>
+        <span>Made By Karsoft.uz</span>
       </div>
     </div>
   );

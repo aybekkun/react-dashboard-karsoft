@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchOrders = createAsyncThunk(
-  "orders/fetchOrders",
+export const fetchComments = createAsyncThunk(
+  "orders/fetchComments",
   async (params, thunkAPI) => {
     const {currentPage} = params;
-    const { data } = await axios.get(`/orders?limit=10&page${currentPage}`);
+    const { data } = await axios.get(`/reviews?limit=10&page${currentPage}`);
     if (data.data.length === 0) {
       return thunkAPI.rejectWithValue(`Ошибка`);
     }
@@ -32,16 +32,16 @@ export const ordersSlice = createSlice({
   
   },
   extraReducers: {
-    [fetchOrders.pending]: (state) => {
+    [fetchComments.pending]: (state) => {
       state.status = "loading";
       state.items = [];
     },
-    [fetchOrders.fulfilled]: (state, action) => {
+    [fetchComments.fulfilled]: (state, action) => {
       state.status = "success";
       state.items = action.payload.data;
       state.totalPage = Math.ceil(Number(action.payload.meta.total) / 10);
     },
-    [fetchOrders.rejected]: (state, action) => {
+    [fetchComments.rejected]: (state, action) => {
       console.log(action, "rejected");
       state.status = "error";
       state.items = [];

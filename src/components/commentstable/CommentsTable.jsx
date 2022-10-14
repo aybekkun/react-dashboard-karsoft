@@ -1,4 +1,5 @@
 import React from "react";
+import "./commentstable.scss";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,14 +8,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders, setCurrentPage } from "../../redux/slices/ordersSlice";
+import { setCurrentPage } from "../../redux/slices/commentsSlice";
 import Pagination from "../../components/pagination/Pagination";
-import "./orderstable.scss";
 import Spinner from "../spinner/Spinner";
-const OrdersTable = () => {
+import { fetchComments } from "../../redux/slices/commentsSlice";
+const CommentsTable = () => {
   const dispatch = useDispatch();
   const { items, status, currentPage, totalPage } = useSelector(
-    (state) => state.orders
+    (state) => state.comments
   );
 
   const handlePageClick = (event) => {
@@ -22,7 +23,7 @@ const OrdersTable = () => {
   };
 
   React.useEffect(() => {
-    const { data } = dispatch(fetchOrders({ currentPage }));
+    const { data } = dispatch(fetchComments({ currentPage }));
     console.log(data);
   }, []);
   if (status === "loading") {
@@ -30,7 +31,7 @@ const OrdersTable = () => {
   }
 
   return (
-    <div className="orderstable">
+    <div className="CommentsTable">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -40,8 +41,7 @@ const OrdersTable = () => {
               <TableCell align="left">Фамилия</TableCell>
               <TableCell align="left">Телефон</TableCell>
               <TableCell align="left">Компания</TableCell>
-              <TableCell align="left">Имя заказа</TableCell>
-              <TableCell align="center">Статус</TableCell>
+              <TableCell align="left">Отзыв</TableCell>
               <TableCell align="center">Создан</TableCell>
             </TableRow>
           </TableHead>
@@ -58,12 +58,8 @@ const OrdersTable = () => {
                 <TableCell align="left">{item.lead[0].surname}</TableCell>
                 <TableCell align="left">{item.lead[0].phone}</TableCell>
                 <TableCell align="left">{item.lead[0].company}</TableCell>
-                <TableCell align="left">{item.menu[0].name}</TableCell>
-                <TableCell align="center">
-                  <div className={`status ${item.status}`}>
-                    {item.status === 0 ? "Не выполнен" : "Выполнин"}
-                  </div>
-                </TableCell>
+                <TableCell align="left">{item.review}</TableCell>
+
                 <TableCell align="center">
                   {new Date(item.created_at).toLocaleString("ru-RU", {
                     timeZone: "UTC",
@@ -83,4 +79,4 @@ const OrdersTable = () => {
   );
 };
 
-export default OrdersTable;
+export default CommentsTable;

@@ -17,11 +17,13 @@ import { useField } from "../../hooks/use-fieled";
 import { setCurrentPage, setSearchParams } from "../../redux/slices/leadsSlice";
 import axios from "../../axios";
 import "./search.scss";
+import ModalComponent from "../modal/ModalComponent";
 const Search = () => {
   const dispatch = useDispatch();
   const {searchParams} = useSelector(state => state.leads);
   const [fromDate, setFromDate] = React.useState(dayjs(""));
   const [beforeDate, setBeforeDate] = React.useState(dayjs(""));
+  const [open, setOpen] = React.useState(false);
 
   const { reset: resetUsername, ...username } = useField("text");
   const { reset: resetSurname, ...surname } = useField("text");
@@ -93,6 +95,7 @@ const onClickDownload = async ()=>{
 }
   return (
     <div className="search">
+ 
       <Box sx={{ minWidth: 120 }}>
         <div className="inputs">
           <TextField
@@ -179,7 +182,6 @@ const onClickDownload = async ()=>{
               )}
             />
           </LocalizationProvider>
-
           <Box>
             <Button
               onClick={onClickSearch}

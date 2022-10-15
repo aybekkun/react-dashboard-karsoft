@@ -2,6 +2,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
+import DownloadIcon from '@mui/icons-material/Download';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,9 +15,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useField } from "../../hooks/use-fieled";
 import { setCurrentPage, setSearchParams } from "../../redux/slices/leadsSlice";
+import axios from "../../axios";
 import "./search.scss";
 const Search = () => {
   const dispatch = useDispatch();
+  const {searchParams} = useSelector(state => state.leads);
   const [fromDate, setFromDate] = React.useState(dayjs(""));
   const [beforeDate, setBeforeDate] = React.useState(dayjs(""));
 
@@ -35,7 +38,7 @@ const Search = () => {
   };
 
   const onClickReset = () => {
-    dispatch(setCurrentPage(1))
+    dispatch(setCurrentPage(1));
     resetUsername();
     resetSurname();
     resetPhone();
@@ -47,7 +50,7 @@ const Search = () => {
   };
 
   const onClickSearch = () => {
-    dispatch(setCurrentPage(1))
+    dispatch(setCurrentPage(1));
     let newFromDate = fromDate;
     let newBeforeDate = beforeDate;
     let formattedFromDate = newFromDate.format("YYYY-MM-DD");
@@ -60,13 +63,34 @@ const Search = () => {
         phone: phone.value,
         company: company.value,
         userStatus: userStatus.value,
-        from: formattedFromDate === "Invalid Date"?"":formattedFromDate,
+        from: formattedFromDate === "Invalid Date" ? "" : formattedFromDate,
         before:
           formattedBeforeDate === "Invalid Date" ? "" : formattedBeforeDate,
       })
     );
   };
-
+const onClickDownload = async ()=>{
+  const username = searchParams.username ? `name=${searchParams.username}` : "";
+  const surname = searchParams.surname ? `&surname=${searchParams.surname}` : "";
+  const phone = searchParams.phone ? `&phone=${searchParams.phone}` : "";
+  const company = searchParams.company ? `&company=${searchParams.company}` : "";
+  const status = searchParams.userStatus ? `&status=${searchParams.userStatus}` : "";
+  const fromDate = searchParams.from ? `&start_date=${searchParams.from}` : "";
+  const beforeDate = searchParams.before ? `&end_date=${searchParams.before}` : "";
+  
+  await axios({
+    url: `/leads_export?${username}${surname}${phone}${company}${status}${fromDate}${beforeDate}`,
+    method: 'GET',
+    responseType: 'blob', // important
+  }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'file.xlsx');
+    document.body.appendChild(link);
+    link.click();
+  });
+}
   return (
     <div className="search">
       <Box sx={{ minWidth: 120 }}>
@@ -175,6 +199,16 @@ const Search = () => {
             >
               <DeleteOutlineOutlinedIcon />
               Очистить
+            </Button>
+            <Button
+              onClick={onClickDownload}
+              sx={{ marginLeft: "10px" }}
+              size="small"
+              variant="outlined"
+              color="success"
+            >
+              <DownloadIcon/>
+              Скачать Excel
             </Button>
           </Box>
         </div>

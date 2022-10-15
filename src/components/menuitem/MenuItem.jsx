@@ -29,7 +29,7 @@ const MenuItem = ({ name, description, sub_menu, count }) => {
         </AccordionSummary>
         <AccordionDetails>
           {sub_menu.map((menu) => (
-            <SubMenu {...menu} />
+            <SubMenu key={menu.id} {...menu} />
           ))}
         </AccordionDetails>
       </Accordion>

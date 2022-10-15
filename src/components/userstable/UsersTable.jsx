@@ -40,7 +40,7 @@ const UsersTable = () => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ width: 100 }}>Телеграм ID</TableCell>
-              <TableCell align="left">Имя</TableCell>
+              <TableCell sx={{ width: 100 }} align="left">Имя</TableCell>
               <TableCell align="left">Фамилия</TableCell>
               <TableCell align="left">Телефон</TableCell>
               <TableCell align="left">Компания</TableCell>

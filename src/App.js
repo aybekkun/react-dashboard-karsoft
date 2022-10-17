@@ -7,6 +7,7 @@ import MainLayout from "./layouts/main/MainLayout";
 import Comments from "./pages/comments/Comments";
 import Designers from "./pages/designers/Designers";
 import Home from "./pages/home/Home";
+import Message from "./pages/message/Message";
 import NotFound from "./pages/notfound/NotFound";
 import Orders from "./pages/orders/Orders";
 import Users from "./pages/users/Users";
@@ -38,6 +39,7 @@ function App() {
             <Route path=":id" element={<DesignerInfo />} />
           </Route>
           <Route path="comments" element={<Comments />} />
+          <Route path="message" element={<Message />} />
           <Route path="orders" element={<Orders />} />
         </Route>
         <Route path="*" element={<NotFound />} />

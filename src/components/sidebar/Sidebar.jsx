@@ -4,6 +4,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { Link } from "react-router-dom";
 import "./sidebar.scss";
 import { useDispatch } from "react-redux";
@@ -37,7 +38,7 @@ const Sidebar = () => {
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
-              <span>Лиды</span>
+              <span>Люди</span>
             </li>
           </Link>
           <Link to="/designers" style={{ textDecoration: "none" }}>
@@ -57,6 +58,12 @@ const Sidebar = () => {
             <li>
               <ChatBubbleOutlineOutlinedIcon className="icon" />
               <span>Отзывы</span>
+            </li>
+          </Link>
+          <Link to="/message" style={{ textDecoration: "none" }}>
+            <li>
+              <MailOutlineIcon className="icon" />
+              <span>Написать письмо</span>
             </li>
           </Link>
           <p className="title">Профиль</p>

@@ -36,9 +36,9 @@ const CommentsTable = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ width: 100 }}>ID</TableCell>
+              <TableCell sx={{ width: 70 }}>ID</TableCell>
               <TableCell sx={{ width: 120 }} align="left">Имя</TableCell>
-              <TableCell sx={{ width: 120 } }align="left">Фамилия</TableCell>
+              <TableCell sx={{ width: 120 }}align="left">Фамилия</TableCell>
               <TableCell align="left">Телефон</TableCell>
               <TableCell align="left">Компания</TableCell>
               <TableCell align="left">Отзыв</TableCell>
@@ -51,17 +51,17 @@ const CommentsTable = () => {
                 key={item.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell sx={{ width: 70 }} component="th" scope="row">
                   {i + 1}
                 </TableCell>
-                <TableCell align="left">{item.lead[0].name}</TableCell>
-                <TableCell align="left">{item.lead[0].surname}</TableCell>
-                <TableCell align="left">{item.lead[0].phone}</TableCell>
+                <TableCell sx={{ width: 120 }} align="left">{item.lead[0].name}</TableCell>
+                <TableCell sx={{ width: 120 }} align="left">{item.lead[0].surname}</TableCell>
+                <TableCell sx={{ width: 120 }} align="left">{item.lead[0].phone}</TableCell>
                 <TableCell align="left">{item.lead[0].company}</TableCell>
-                <TableCell align="left">{item.review}</TableCell>
+                <TableCell sx={{ width: 200 }} align="left">{item.review}</TableCell>
 
                 <TableCell align="center">
-                  {new Date(item.created_at).toLocaleString("ru-RU", {
+                  {new Date(item.lead[0].created_at).toLocaleString("ru-RU", {
                     timeZone: "UTC",
                   })}
                 </TableCell>

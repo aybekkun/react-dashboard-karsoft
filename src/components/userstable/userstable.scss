@@ -1,8 +1,8 @@
 .userstable{
-    padding: 20px;
+   
 
     .status{
-        width: 70px;
+     
         padding: 3px;
         display: flex;
         align-items: center;
@@ -23,6 +23,10 @@
             color: #333;
             border: 1px dotted #43EA46;
         }
+    }
+
+    .table{
+        max-width: 120px;
     }
 }
 

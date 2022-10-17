@@ -37,8 +37,8 @@ const CommentsTable = () => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ width: 100 }}>ID</TableCell>
-              <TableCell align="left">Имя</TableCell>
-              <TableCell align="left">Фамилия</TableCell>
+              <TableCell sx={{ width: 120 }} align="left">Имя</TableCell>
+              <TableCell sx={{ width: 120 } }align="left">Фамилия</TableCell>
               <TableCell align="left">Телефон</TableCell>
               <TableCell align="left">Компания</TableCell>
               <TableCell align="left">Отзыв</TableCell>

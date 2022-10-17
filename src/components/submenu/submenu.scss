@@ -1,20 +1,19 @@
 .submenu {
+  padding: 5px;
   margin-bottom: 20px;
-  h4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  span{
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
     font-size: 16px;
-  }
-  h5 {
-    font-size: 14px;
-  }
-  p {
-    font-size: 12px;
-    font-weight: 700;
-  }
-  .description {
-    font-size: 12px;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    background-color: #7451f8;
+    color: #fff;
+    border-radius: 3px;
+    text-align: center;
+    position: relative;
   }
 }

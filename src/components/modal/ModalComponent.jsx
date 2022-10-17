@@ -1,18 +1,18 @@
 import { Modal } from "@mui/material";
 import React from "react";
 
-const ModalComponent = ({open = false, onClose }) => {
+const ModalComponent = ({ isOpen, onClickClose }) => {
   return (
-    <div>
-     <Modal
-        open={open}
-        onClose={()=>onClose(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-       
-      </Modal>
-    </div>
+    <Modal
+      open={isOpen}
+      onClose={onClickClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <div className="modal">
+        
+      </div>
+    </Modal>
   );
 };
 

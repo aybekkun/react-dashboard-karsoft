@@ -32,7 +32,7 @@ const DesignersTable = () => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell align="left">Имя</TableCell>
+                <TableCell  sx={{ width: 120 }}  align="left">Имя</TableCell>
                 <TableCell align="left">Рейтинг</TableCell>
                 <TableCell align="left">Действие</TableCell>
               </TableRow>

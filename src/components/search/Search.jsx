@@ -1,8 +1,9 @@
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import DownloadIcon from "@mui/icons-material/Download";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
-import DownloadIcon from '@mui/icons-material/Download';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,13 +15,16 @@ import dayjs from "dayjs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useField } from "../../hooks/use-fieled";
-import { setCurrentPage, setSearchParams } from "../../redux/slices/leadsSlice";
-import axios from "../../axios";
-import "./search.scss";
+import {
+  fetchDownload,
+  setCurrentPage,
+  setSearchParams,
+} from "../../redux/slices/leadsSlice";
 import ModalComponent from "../modal/ModalComponent";
+import "./search.scss";
 const Search = () => {
   const dispatch = useDispatch();
-  const {searchParams} = useSelector(state => state.leads);
+  const { searchParams, total } = useSelector((state) => state.leads);
   const [fromDate, setFromDate] = React.useState(dayjs(""));
   const [beforeDate, setBeforeDate] = React.useState(dayjs(""));
   const [open, setOpen] = React.useState(false);
@@ -55,8 +59,12 @@ const Search = () => {
     dispatch(setCurrentPage(1));
     let newFromDate = fromDate;
     let newBeforeDate = beforeDate;
-    let formattedFromDate = newFromDate.format("YYYY-MM-DD");
-    let formattedBeforeDate = newBeforeDate.format("YYYY-MM-DD");
+    let formattedFromDate = fromDate
+      ? newFromDate.format("YYYY-MM-DD")
+      : "Invalid Date";
+    let formattedBeforeDate = newBeforeDate
+      ? newBeforeDate.format("YYYY-MM-DD")
+      : "Invalid Date";
     console.log(formattedFromDate);
     dispatch(
       setSearchParams({
@@ -71,118 +79,116 @@ const Search = () => {
       })
     );
   };
-const onClickDownload = async ()=>{
-  const username = searchParams.username ? `name=${searchParams.username}` : "";
-  const surname = searchParams.surname ? `&surname=${searchParams.surname}` : "";
-  const phone = searchParams.phone ? `&phone=${searchParams.phone}` : "";
-  const company = searchParams.company ? `&company=${searchParams.company}` : "";
-  const status = searchParams.userStatus ? `&status=${searchParams.userStatus}` : "";
-  const fromDate = searchParams.from ? `&start_date=${searchParams.from}` : "";
-  const beforeDate = searchParams.before ? `&end_date=${searchParams.before}` : "";
-  
-  await axios({
-    url: `/leads_export?${username}${surname}${phone}${company}${status}${fromDate}${beforeDate}`,
-    method: 'GET',
-    responseType: 'blob', // important
-  }).then((response) => {
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'file.xlsx');
-    document.body.appendChild(link);
-    link.click();
-  });
-}
+  const onClickDownload = () => {
+    dispatch(fetchDownload(searchParams));
+  };
+
   return (
     <div className="search">
- 
+      <ModalComponent isOpen={open} onClickClose={() => setOpen(false)} />
       <Box sx={{ minWidth: 120 }}>
         <div className="inputs">
-          <TextField
-            className="search-input"
-            size="small"
-            label="Имя"
-            variant="standard"
-            {...username}
-          />
-          <TextField
-            className="search-input"
-            size="small"
-            label="Фамилия"
-            variant="standard"
-            {...surname}
-          />
-          <TextField
-            className="search-input"
-            size="small"
-            label="Телефон Номер"
-            variant="standard"
-            {...phone}
-          />
-          <TextField
-            className="search-input"
-            size="small"
-            label="Компания"
-            variant="standard"
-            {...company}
-          />
-          <FormControl
-            sx={{ minWidth: "100px", marginRight: "5px", marginBottom: "10px" }}
-            variant="standard"
-            size="small"
-          >
-            <InputLabel id="demo-simple-select-label">Статус</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Поиск по"
-              {...userStatus}
+          <div className="filters">
+            <TextField
+              className="search-input"
+              size="small"
+              label="Имя"
+              variant="standard"
+              {...username}
+            />
+            <TextField
+              className="search-input"
+              size="small"
+              label="Фамилия"
+              variant="standard"
+              {...surname}
+            />
+            <TextField
+              className="search-input"
+              size="small"
+              label="Телефон Номер"
+              variant="standard"
+              {...phone}
+            />
+            <TextField
+              className="search-input"
+              size="small"
+              label="Компания"
+              variant="standard"
+              {...company}
+            />
+            <FormControl
+              sx={{
+                minWidth: "100px",
+                marginRight: "5px",
+                marginBottom: "10px",
+              }}
+              variant="standard"
+              size="small"
             >
-              <MenuItem value="joined">joined</MenuItem>
-              <MenuItem value="signed">signed</MenuItem>
-              <MenuItem value="start">start</MenuItem>
-            </Select>
-          </FormControl>
+              <InputLabel id="demo-simple-select-label">Статус</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Поиск по"
+                {...userStatus}
+              >
+                <MenuItem value="joined">Подписался</MenuItem>
+                <MenuItem value="signed">Присоединился</MenuItem>
+                <MenuItem value="start">Старт</MenuItem>
+              </Select>
+            </FormControl>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="От"
-              inputFormat="DD.MM.YYYY"
-              value={fromDate}
-              onChange={handleChangeFromDate}
-              renderInput={(params) => (
-                <TextField
-                  sx={{
-                    minWidth: "100px",
-                    marginRight: "5px",
-                    marginBottom: "10px",
-                  }}
-                  size="small"
-                  variant="standard"
-                  {...params}
-                />
-              )}
-            />
-            <DesktopDatePicker
-              label="До"
-              inputFormat="DD.MM.YYYY"
-              value={beforeDate}
-              onChange={handleChangeBeforeDate}
-              renderInput={(params) => (
-                <TextField
-                  sx={{
-                    minWidth: "100px",
-                    marginRight: "5px",
-                    marginBottom: "10px",
-                  }}
-                  size="small"
-                  variant="standard"
-                  {...params}
-                />
-              )}
-            />
-          </LocalizationProvider>
-          <Box>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="От"
+                inputFormat="DD.MM.YYYY"
+                value={fromDate}
+                onChange={handleChangeFromDate}
+                renderInput={(params) => (
+                  <TextField
+                    sx={{
+                      minWidth: "100px",
+                      marginRight: "5px",
+                      marginBottom: "10px",
+                    }}
+                    size="small"
+                    variant="standard"
+                    {...params}
+                  />
+                )}
+              />
+              <DesktopDatePicker
+                label="До"
+                inputFormat="DD.MM.YYYY"
+                value={beforeDate}
+                onChange={handleChangeBeforeDate}
+                renderInput={(params) => (
+                  <TextField
+                    sx={{
+                      minWidth: "100px",
+                      marginRight: "5px",
+                      marginBottom: "10px",
+                    }}
+                    size="small"
+                    variant="standard"
+                    {...params}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+            <Button
+              onClick={() => setOpen(true)}
+              sx={{ marginLeft: "10px" }}
+              size="small"
+              variant="outlined"
+              color="primary"
+            >
+              <MailOutlineIcon sx={{ marginRight: "5px" }} />
+              Написать письмо
+            </Button>
+          </div>
+          <Box sx={{display:"flex", alignItems:"center"}}>
             <Button
               onClick={onClickSearch}
               sx={{ marginRight: "10px" }}
@@ -209,9 +215,10 @@ const onClickDownload = async ()=>{
               variant="outlined"
               color="success"
             >
-              <DownloadIcon/>
+              <DownloadIcon />
               Скачать Excel
             </Button>
+            <h4 style={{ marginLeft: "10px" }}>Количество людей - {total}</h4>
           </Box>
         </div>
       </Box>

@@ -8,7 +8,6 @@ import TableRow from "@mui/material/TableRow";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads, setCurrentPage } from "../../redux/slices/leadsSlice";
-import Search from "../search/Search";
 import "./userstable.scss";
 
 import Pagination from "../pagination/Pagination";
@@ -34,18 +33,29 @@ const UsersTable = () => {
 
   return (
     <div className="userstable">
-      <Search />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ width: 100 }}>Телеграм ID</TableCell>
-              <TableCell sx={{ width: 100 }} align="left">Имя</TableCell>
-              <TableCell align="left">Фамилия</TableCell>
-              <TableCell align="left">Телефон</TableCell>
-              <TableCell align="left">Компания</TableCell>
-              <TableCell align="center">Статус</TableCell>
-              <TableCell align="center">Создан</TableCell>
+              <TableCell>Телеграм ID</TableCell>
+              <TableCell className="table" align="left">
+                Имя
+              </TableCell>
+              <TableCell className="table" align="left">
+                Фамилия
+              </TableCell>
+              <TableCell className="table" align="left">
+                Телефон
+              </TableCell>
+              <TableCell className="table" align="left">
+                Компания
+              </TableCell>
+              <TableCell className="table" align="center">
+                Статус
+              </TableCell>
+              <TableCell className="table" align="center">
+                Создан
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -57,12 +67,28 @@ const UsersTable = () => {
                 <TableCell component="th" scope="row">
                   {item.tg_id}
                 </TableCell>
-                <TableCell align="left">{item.name}</TableCell>
-                <TableCell align="left">{item.surname}</TableCell>
-                <TableCell align="left">{item.phone}</TableCell>
-                <TableCell align="left">{item.company}</TableCell>
-                <TableCell align="center">
-                  <div className={`status ${item.status}`}>{item.status}</div>
+                <TableCell className="table" align="left">
+                  {item.name.slice(0, 20)}
+                </TableCell>
+                <TableCell className="table" align="left">
+                  {item.surname.slice(0, 20)}
+                </TableCell>
+                <TableCell className="table" align="left">
+                  {item.phone}
+                </TableCell>
+                <TableCell className="table" align="left">
+                  {item.company}
+                </TableCell>
+                <TableCell className="table" align="center">
+                  <div className={`status ${item.status}`}>
+                    {item.status
+                      ? item.status === "joined"
+                        ? "Подписался"
+                        : item.status === "start"
+                        ? "Старт"
+                        : item.status === "signed"
+                      ? "Присоединился":"":""}
+                  </div>
                 </TableCell>
                 <TableCell align="center">
                   {new Date(item.created_at).toLocaleString("ru-RU", {

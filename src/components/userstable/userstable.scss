@@ -1,32 +1,29 @@
-.userstable{
-   
-
-    .status{
-     
-        padding: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        &.start{
-            background-color: rgba($color: #0E6DE4, $alpha: 0.7);
-            color: #fff;
-            border: 1px dotted #0E6DE4;
-        }
-        &.signed{
-            background-color: rgba($color: #f1d64f, $alpha: 0.7);
-            color: #333;
-            border: 1px dotted #FFF7CD;
-        }
-        &.joined{
-            background-color: rgba($color: #43EA46, $alpha: 0.7);
-            color: #333;
-            border: 1px dotted #43EA46;
-        }
+.userstable {
+  .status {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    &.start {
+      background-color: rgba($color: #0e6de4, $alpha: 0.7);
+      color: #fff;
+      border: 1px dotted #0e6de4;
     }
-
-    .table{
-        max-width: 120px;
+    &.signed {
+      background-color: rgba($color: #f1d64f, $alpha: 0.7);
+      color: #333;
+      border: 1px dotted #fff7cd;
     }
+    &.joined {
+      background-color: rgba($color: #43ea46, $alpha: 0.7);
+      color: #333;
+      border: 1px dotted #43ea46;
+    }
+  }
+
+  .table {
+    max-width: 120px;
+  }
+
 }
-

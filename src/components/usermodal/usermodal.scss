@@ -1,0 +1,27 @@
+.usermodal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    display: flex;
+  
+    width: 80%;
+    height: 700px;
+    padding: 40px;
+    background: #e3f2fd;
+    border-radius: 35px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    h3{
+    font-size: 18px;
+    }
+  
+    &-info{
+        padding-right: 10px;
+        flex: 2;
+    }
+    &-action{
+        flex: 8;
+    }
+
+}

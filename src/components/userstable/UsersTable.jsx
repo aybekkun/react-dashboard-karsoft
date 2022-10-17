@@ -5,6 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import AppsIcon from "@mui/icons-material/Apps";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeads, setCurrentPage } from "../../redux/slices/leadsSlice";
@@ -12,6 +13,9 @@ import "./userstable.scss";
 
 import Pagination from "../pagination/Pagination";
 import Spinner from "../spinner/Spinner";
+import { Button } from "@mui/material";
+import Widget from "../widget/Widget";
+import UserModal from "../usermodal/UserModal";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
@@ -19,6 +23,7 @@ const UsersTable = () => {
     (state) => state.leads
   );
 
+  const [open, setOpen] = React.useState(false);
   React.useEffect(() => {
     dispatch(fetchLeads({ ...searchParams, page: currentPage }));
   }, [currentPage, searchParams]);
@@ -33,6 +38,7 @@ const UsersTable = () => {
 
   return (
     <div className="userstable">
+      <UserModal isOpen={open} onClickClose={() => setOpen(false)} />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -52,6 +58,9 @@ const UsersTable = () => {
               </TableCell>
               <TableCell className="table" align="center">
                 Статус
+              </TableCell>
+              <TableCell className="table" align="center">
+                Действие
               </TableCell>
               <TableCell className="table" align="center">
                 Создан
@@ -79,6 +88,7 @@ const UsersTable = () => {
                 <TableCell className="table" align="left">
                   {item.company}
                 </TableCell>
+
                 <TableCell className="table" align="center">
                   <div className={`status ${item.status}`}>
                     {item.status
@@ -87,8 +97,15 @@ const UsersTable = () => {
                         : item.status === "start"
                         ? "Старт"
                         : item.status === "signed"
-                      ? "Присоединился":"":""}
+                        ? "Присоединился"
+                        : ""
+                      : ""}
                   </div>
+                </TableCell>
+                <TableCell className="table table-widget" align="center">
+                  <Button size="small" onClick={()=>setOpen(true)}>
+                    <AppsIcon />
+                  </Button>
                 </TableCell>
                 <TableCell align="center">
                   {new Date(item.created_at).toLocaleString("ru-RU", {

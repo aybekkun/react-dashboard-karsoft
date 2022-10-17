@@ -5,11 +5,7 @@ import "./widget.scss";
 const Widget = () => {
   return (
     <div className="widget">
-      <h3>Услуги</h3>
-      <p>123</p>
-      <Link to="/">
-    Посмотреть 
-      </Link>
+    <h1>Hellow</h1>
     </div>
   );
 };

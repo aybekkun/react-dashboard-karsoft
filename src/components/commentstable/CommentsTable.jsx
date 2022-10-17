@@ -59,7 +59,6 @@ const CommentsTable = () => {
                 <TableCell sx={{ width: 120 }} align="left">{item.lead[0].phone}</TableCell>
                 <TableCell align="left">{item.lead[0].company}</TableCell>
                 <TableCell sx={{ width: 200 }} align="left">{item.review}</TableCell>
-
                 <TableCell align="center">
                   {new Date(item.lead[0].created_at).toLocaleString("ru-RU", {
                     timeZone: "UTC",

@@ -8,7 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import AppsIcon from "@mui/icons-material/Apps";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLeads, setCurrentPage } from "../../redux/slices/leadsSlice";
+import {
+  fetchLeads,
+  setCurrentPage,
+  setUserItem,
+} from "../../redux/slices/leadsSlice";
 import "./userstable.scss";
 
 import Pagination from "../pagination/Pagination";
@@ -30,6 +34,11 @@ const UsersTable = () => {
 
   const handlePageClick = (event) => {
     dispatch(setCurrentPage(event.selected + 1));
+  };
+
+  const onClickAction = (item) => {
+    setOpen(true);
+    dispatch(setUserItem(item));
   };
 
   if (status === "loading") {
@@ -103,7 +112,7 @@ const UsersTable = () => {
                   </div>
                 </TableCell>
                 <TableCell className="table table-widget" align="center">
-                  <Button size="small" onClick={()=>setOpen(true)}>
+                  <Button size="small" onClick={() => onClickAction(item)}>
                     <AppsIcon />
                   </Button>
                 </TableCell>

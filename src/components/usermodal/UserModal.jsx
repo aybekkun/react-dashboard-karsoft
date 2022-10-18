@@ -1,7 +1,12 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { Modal } from "@mui/material";
 import React from "react";
-import "./usermodal.scss"
+
+import "./usermodal.scss";
+import { useSelector } from "react-redux";
+
 const UserModal = ({ isOpen, onClickClose }) => {
+  const { userItem } = useSelector((state) => state.leads);
   return (
     <Modal
       open={isOpen}
@@ -10,18 +15,41 @@ const UserModal = ({ isOpen, onClickClose }) => {
       aria-describedby="modal-modal-settings"
     >
       <div className="usermodal">
-        <div className="usermodal-info"><h3>Информация пользователе:</h3>
-        <h4>Телеграм ID:</h4>
-        <h4>Имя:</h4>
-        <h4>Фамилия:</h4>
-        <h4>Компания:</h4>
-        <h4>Телефон:</h4>
-        <h4>Статус:</h4>
-        <h4>Создан:</h4>
+        <div className="usermodal-info">
+          <h3>Информация пользователе</h3>
+          <h4>
+            Телеграм ID: <span>{userItem.tg_id}</span>
+          </h4>
+          <h4>
+            Имя: <span>{userItem.name}</span>
+          </h4>
+          <h4>
+            Фамилия: <span>{userItem.surname}</span>
+          </h4>
+          <h4>
+            Компания: <span>{userItem.company}</span>
+          </h4>
+          <h4>
+            Телефон: <span>{userItem.phone}</span>
+          </h4>
+          <h4>
+            Статус: <span>{userItem.status}</span>
+          </h4>
+          <h4>
+            Создан:{" "}
+            <span>
+              {new Date(userItem.created_at).toLocaleString("ru-RU", {
+                timeZone: "UTC",
+              })}
+            </span>
+          </h4>
         </div>
         <div className="usermodal-action">
+          <div className="usermodal-title">
             <h3>Действие</h3>
-            <hr />
+            <CloseIcon size="large" onClick={onClickClose} />
+          </div>
+          <div className="usermodal-tabs"></div>
         </div>
       </div>
     </Modal>

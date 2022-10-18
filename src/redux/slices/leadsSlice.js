@@ -85,6 +85,7 @@ const initialState = {
   currentPage: 1,
   // loading | success| error
   searchParams: {},
+  userItem:{},
   total:0
 };
 
@@ -97,6 +98,9 @@ export const leadsSlice = createSlice({
     },
     setSearchParams(state, action) {
       state.searchParams = action.payload;
+    },
+    setUserItem(state, action) {
+      state.userItem = action.payload;
     },
   },
   extraReducers: {
@@ -129,6 +133,6 @@ export const leadsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrentPage, setSearchParams } = leadsSlice.actions;
+export const { setCurrentPage, setSearchParams,setUserItem } = leadsSlice.actions;
 
 export default leadsSlice.reducer;

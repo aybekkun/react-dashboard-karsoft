@@ -4,6 +4,7 @@ import React from "react";
 
 import "./usermodal.scss";
 import { useSelector } from "react-redux";
+import BasicTabs from "../basictabs/BasicTabs";
 
 const UserModal = ({ isOpen, onClickClose }) => {
   const { userItem } = useSelector((state) => state.leads);
@@ -33,7 +34,15 @@ const UserModal = ({ isOpen, onClickClose }) => {
             Телефон: <span>{userItem.phone}</span>
           </h4>
           <h4>
-            Статус: <span>{userItem.status}</span>
+            Статус: <span>    {userItem.status
+                      ? userItem.status === "joined"
+                        ? "Подписался"
+                        : userItem.status === "start"
+                        ? "Старт"
+                        : userItem.status === "signed"
+                        ? "Присоединился"
+                        : ""
+                      : ""}</span>
           </h4>
           <h4>
             Создан:{" "}
@@ -47,9 +56,12 @@ const UserModal = ({ isOpen, onClickClose }) => {
         <div className="usermodal-action">
           <div className="usermodal-title">
             <h3>Действие</h3>
+    
             <CloseIcon size="large" onClick={onClickClose} />
           </div>
-          <div className="usermodal-tabs"></div>
+          <div className="usermodal-tabs">
+            <BasicTabs/>
+          </div>
         </div>
       </div>
     </Modal>

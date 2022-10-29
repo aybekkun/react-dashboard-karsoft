@@ -4,7 +4,7 @@ import axios from "../../axios";
 export const fetchDesigners = createAsyncThunk(
   "leads/fetchDesigners",
   async (params, thunkAPI) => {
-    const { data } = await axios.get(`/employees`);
+    const { data } = await axios.get(`/ratings`);
     if (data.data.length === 0) {
       return thunkAPI.rejectWithValue(`Ошибка`);
     }
@@ -21,15 +21,21 @@ export const fetchDesigner = createAsyncThunk(
     return thunkAPI.fulfillWithValue(data);
   }
 );
+export const fetchGeneral = createAsyncThunk(
+  "leads/fetchGeneral",
+  async (params) => {
+    const {data} = await axios.get(`/ratings_general`);
+  
+    return data;
+  }
+);
 
 const initialState = {
   items: [],
-  overalls: [],
-  info: {},
-  disignersCount: 0,
-  middleOverall: 0,
-  bestDesigner: "",
   status: "loading",
+  disignersCount: 0,
+  info: {},
+  middleOverall:0
 };
 
 export const designersSlice = createSlice({
@@ -44,22 +50,18 @@ export const designersSlice = createSlice({
     [fetchDesigners.fulfilled]: (state, action) => {
       state.status = "success";
       state.items = action.payload.data;
+
       state.disignersCount = action.payload.data.length;
-      state.overalls = action.payload.overalls;
-      state.middleOverall =
-        state.overalls.reduce(
-          (sum, currentValue) => sum + currentValue.overall,
-          0
-        ) / state.overalls.length;
-      state.bestDesigner = state.items.find(
-        (obj) =>
-          obj.id ===
-          state.overalls.find(
-            (item) =>
-              item.overall ===
-              Math.max(...state.overalls.map((overall) => overall.overall))
-          ).id
-      ).name;
+
+      // state.bestDesigner = state.items.find(
+      //   (obj) =>
+      //     obj.id ===
+      //     state.overalls.find(
+      //       (item) =>
+      //         item.overall ===
+      //         Math.max(...state.overalls.map((overall) => overall.overall))
+      //     ).id
+      // ).name;
     },
     [fetchDesigners.rejected]: (state, action) => {
       console.log(action, "rejected");
@@ -71,6 +73,11 @@ export const designersSlice = createSlice({
       state.info = action.payload.data[0];
     },
     [fetchDesigner.rejected]: (state, action) => {},
+    [fetchGeneral.pending]: (state) => {},
+    [fetchGeneral.fulfilled]: (state, action) => {
+      state.middleOverall = action.payload;
+    },
+    [fetchGeneral.rejected]: (state, action) => {},
   },
 });
 

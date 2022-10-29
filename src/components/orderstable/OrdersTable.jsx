@@ -54,8 +54,8 @@ const OrdersTable = () => {
                 <TableCell component="th" scope="row">
                   {i + 1}
                 </TableCell>
-                <TableCell align="left">{item.lead[0].name}</TableCell>
-                <TableCell align="left">{item.lead[0].surname}</TableCell>
+                <TableCell align="left">{item.lead[0].name.slice(0,20)}</TableCell>
+                <TableCell align="left">{item.lead[0].surname.slice(0,20)}</TableCell>
                 <TableCell align="left">{item.lead[0].phone}</TableCell>
                 <TableCell align="left">{item.lead[0].company}</TableCell>
                 <TableCell align="left">{item.menu[0].name}</TableCell>

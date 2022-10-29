@@ -60,12 +60,12 @@ const Sidebar = () => {
               <span>Отзывы</span>
             </li>
           </Link>
-          <Link to="/message" style={{ textDecoration: "none" }}>
+    {/*       <Link to="/message" style={{ textDecoration: "none" }}>
             <li>
               <MailOutlineIcon className="icon" />
               <span>Написать письмо</span>
             </li>
-          </Link>
+          </Link> */}
           <p className="title">Профиль</p>
           <Link onClick={onLogout} to="/" style={{ textDecoration: "none" }}>
             <li>

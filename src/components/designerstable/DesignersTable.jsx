@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { fetchDesigners } from "../../redux/slices/designersSlice";
+import { fetchDesigners, fetchGeneral } from "../../redux/slices/designersSlice";
 import Spinner from "../spinner/Spinner";
 import "./designerstable.scss";
 
@@ -18,6 +18,7 @@ const DesignersTable = () => {
   const { items, overalls, status } = useSelector((state) => state.designers);
   React.useEffect(() => {
     dispatch(fetchDesigners());
+ 
   }, []);
   
   if (status === "loading") {
@@ -46,21 +47,21 @@ const DesignersTable = () => {
                   <TableCell component="th" scope="row">
                     {i + 1}
                   </TableCell>
-                  <TableCell align="left">{item.name}</TableCell>
+                  <TableCell align="left">{item.employee_name}</TableCell>
                   <TableCell align="left">
                     <div className="rating">
                       <Rating
                         name="read-only"
-                        value={overalls[i].overall}
+                        value={item.rating}
                         precision={0.1}
                         readOnly
                       />
-                      <p>{overalls[i].overall}</p>
+                      <p>{item.rating}</p>
                     </div>
                   </TableCell>
                   <TableCell align="left">
                     <Link
-                      to={`/designers/${item.id}`}
+                      to={`/designers/${item.employee_id}`}
                       className="designerstable-view"
                     >
                       Посмотреть все оценки

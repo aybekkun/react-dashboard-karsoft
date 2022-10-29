@@ -5,6 +5,7 @@ import designers from "./slices/designersSlice";
 import menus from "./slices/menusSlice";
 import orders from "./slices/ordersSlice";
 import comments from "./slices/commentsSlice";
+import message from "./slices/messageSlice";
 export const store = configureStore({
   reducer: {
     leads,
@@ -12,6 +13,7 @@ export const store = configureStore({
     designers,
     menus,
     orders,
-    comments
+    comments,
+    message
   },
 });

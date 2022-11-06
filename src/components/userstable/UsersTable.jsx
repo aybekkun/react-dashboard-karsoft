@@ -1,3 +1,4 @@
+import AppsIcon from "@mui/icons-material/Apps";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -5,20 +6,18 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import AppsIcon from "@mui/icons-material/Apps";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchLeads,
   setCurrentPage,
-  setUserItem,
+  setUserItem
 } from "../../redux/slices/leadsSlice";
 import "./userstable.scss";
 
+import { Button } from "@mui/material";
 import Pagination from "../pagination/Pagination";
 import Spinner from "../spinner/Spinner";
-import { Button } from "@mui/material";
-import Widget from "../widget/Widget";
 import UserModal from "../usermodal/UserModal";
 
 const UsersTable = () => {

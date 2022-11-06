@@ -8,6 +8,7 @@ import BasicTabs from "../basictabs/BasicTabs";
 
 const UserModal = ({ isOpen, onClickClose }) => {
   const { userItem } = useSelector((state) => state.leads);
+
   return (
     <Modal
       open={isOpen}
@@ -60,7 +61,7 @@ const UserModal = ({ isOpen, onClickClose }) => {
             <CloseIcon size="large" onClick={onClickClose} />
           </div>
           <div className="usermodal-tabs">
-            <BasicTabs/>
+            <BasicTabs {...userItem}/>
           </div>
         </div>
       </div>
